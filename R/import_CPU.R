@@ -100,5 +100,9 @@ data<-rbind(cpu_intel_fixe,
             cpu_intel_portable,
             cpu_amd)
 
+  # retirer les lignes NA
+  data<-data %>%
+    dplyr::filter(!is.na(`Processor Number`))
+
   return(data)
 }
