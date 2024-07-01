@@ -4,7 +4,6 @@
 #' Title
 #'
 #' @return un df avec les TDP des processeurs AMD
-#' @export
 #' @import readxl
 #' @importFrom readxl read_excel
 #' @importFrom dplyr %>%
