@@ -1,0 +1,15 @@
+Package: CarbPack
+Title: Estimer l'empreinte carbone d'un programme R
+Version: 0.0.0.9000
+Author: Adam Loffler
+Authors@R: c(
+    person(given = "Your", family = "Name", 
+           role = c("aut", "cre"), 
+           email = "your.email@example.com"))
+Description: Estimer l'empreinte carbone d'un programme R. Je met du remplissage sinon ça bug.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: dplyr, readxl
