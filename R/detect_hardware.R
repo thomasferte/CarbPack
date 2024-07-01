@@ -1,4 +1,14 @@
 
+#' Title
+#'
+#' @param OS
+#' @param TDP
+#' @param tracker
+#'
+#' @return
+#' @export
+#'
+#' @examples
 detect_hardware<-function(OS = NULL,
                           TDP = NULL,
                           tracker = FALSE) {
@@ -6,16 +16,21 @@ detect_hardware<-function(OS = NULL,
   # Obtenir les informations sur le système
   sys_info<-Sys.info()
 
-  # Vérifier le nom du système d'exploitation
-  os_name<-sys_info["sysname"]
+  # Vérifier le nom du système d'exploitation si non forcé
+  if(is.null(OS)) {
+    os_name<-sys_info["sysname"]
 
-  # Afficher le système d'exploitation
-  if(os_name == "Windows") {
-    message("Le programme tourne sous Windows.")
-  } else if (os_name == "Darwin") {
-    message("Le programme tourne sous macOS.")
+    # Afficher le système d'exploitation
+    if(os_name == "Windows") {
+      message("Le programme tourne sous Windows.")
+    } else if (os_name == "Darwin") {
+      message("Le programme tourne sous macOS.")
+    } else {
+      message("Le programme tourne sous un autre système d'exploitation : ", os_name)
+    }
   } else {
-    message("Le programme tourne sous un autre système d'exploitation : ", os_name)
+    message("Le programme tourne sous ", os_name)
+
   }
 
   #### processeur CPU ####
@@ -94,12 +109,29 @@ detect_hardware<-function(OS = NULL,
           "La valeur estimée du TDP est", cpu_TDP, "W\n")
     }
   } else {
-    cpu_TDP<-number_of_cores*15
-    cat("La version du processeur n'est pas présente dans le dataframe.\n",
-        "La valeur estimée du TDP est", cpu_TDP, "W\n")
+    # vérifier si une valeur a été forcée
+    if(is.null(TDP)) {
+      cpu_TDP<-number_of_cores*15
+      cat("La version du processeur n'est pas présente dans le dataframe.\n",
+          "La valeur estimée du TDP est", cpu_TDP, "W\n")
+    } else {
+      cpu_TDP<-TDP
+      cat("La version du processeur n'est pas présente dans le dataframe.\n",
+          "La valeur estimée du TDP est", cpu_TDP, "W\n")
+    }
   }
+  ## Créer une liste qui retourne tous les éléments utiles pour plus tard
+  return(list(sys_info = sys_info,
+              os_name = os_name,
+              cpu_info = cpu_info,
+              cpu_data = cpu_data,
+              number_of_cores = number_of_cores,
+              cpu_data_report, cpu_data_report,
+              ram_info = ram_info,
+              ram_values = ram_values,
+              ram_gb = ram_gb,
+              cpu_TDP = cpu_TDP))
 
+  # fin
+}
 
-
-
-} # fin
