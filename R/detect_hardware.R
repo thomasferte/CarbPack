@@ -2,7 +2,7 @@
 #' Title
 #'
 #' @param OS NULL par défaut, chaine de caractères pour forcer le nom de l'OS
-#' @param TDP NULL par défaut, chaine de caractères pour forcer
+#' @param TDP NULL par défaut, valeur numérique (entier) pour forcer
 #' la valeur du TDP, si elle n'est pas dispo dans la base de données
 #' @param tracker FALSE par défaut. Si TRUE, le tracker se lance en même temps
 #' que cette fonction. si FALSE, il faut lancer le tracker séparément
