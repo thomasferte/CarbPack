@@ -1,14 +1,18 @@
 
 #' Title
 #'
-#' @param OS
-#' @param TDP
-#' @param tracker
+#' @param OS NULL par défaut, chaine de caractères pour forcer le nom de l'OS
+#' @param TDP NULL par défaut, chaine de caractères pour forcer
+#' la valeur du TDP, si elle n'est pas dispo dans la base de données
+#' @param tracker FALSE par défaut. Si TRUE, le tracker se lance en même temps
+#' que cette fonction. si FALSE, il faut lancer le tracker séparément
+#' ne pas utiliser pour l'instant
 #'
-#' @return
+#' @return Retourne une liste avec plusieurs paramètres liés au matériel
+#' du PC sur lequel l'analyse tourne
 #' @export
 #'
-#' @examples
+#' @examples #ne pas lancer
 detect_hardware<-function(OS = NULL,
                           TDP = NULL,
                           tracker = FALSE) {

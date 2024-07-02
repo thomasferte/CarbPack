@@ -6,6 +6,12 @@
 \usage{
 tracker_start()
 }
+\value{
+retourne un objet date
+}
 \description{
 Title
+}
+\examples{
+#tracker_start<-function()
 }

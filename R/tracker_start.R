@@ -1,10 +1,10 @@
 
 #' Title
 #'
-#' @return
+#' @return retourne un objet date
 #' @export
 #'
-#' @examples
+#' @examples #tracker_start<-function()
 tracker_start<-function() {
   start_time<-Sys.time()
   return(start_time)
