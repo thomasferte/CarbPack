@@ -7,17 +7,17 @@
 detect_hardware(OS = NULL, TDP = NULL, tracker = FALSE)
 }
 \arguments{
-\item{OS}{NULL par défaut, chaine de caractères pour forcer le nom de l'OS}
+\item{OS}{NULL par defaut, chaine de caracteres pour forcer le nom de l'OS}
 
-\item{TDP}{NULL par défaut, valeur numérique (entier) pour forcer
-la valeur du TDP, si elle n'est pas dispo dans la base de données}
+\item{TDP}{NULL par defaut, valeur numerique (entier) pour forcer
+la valeur du TDP, si elle n'est pas dispo dans la base de donnees}
 
-\item{tracker}{FALSE par défaut. Si TRUE, le tracker se lance en même temps
-que cette fonction. si FALSE, il faut lancer le tracker séparément
+\item{tracker}{FALSE par defaut. Si TRUE, le tracker se lance en meme temps
+que cette fonction. si FALSE, il faut lancer le tracker separement
 ne pas utiliser pour l'instant}
 }
 \value{
-Retourne une liste avec plusieurs paramètres liés au matériel
+Retourne une liste avec plusieurs parametres lies au materiel
 du PC sur lequel l'analyse tourne
 }
 \description{

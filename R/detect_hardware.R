@@ -1,14 +1,14 @@
 
 #' Title
 #'
-#' @param OS NULL par défaut, chaine de caractères pour forcer le nom de l'OS
-#' @param TDP NULL par défaut, valeur numérique (entier) pour forcer
-#' la valeur du TDP, si elle n'est pas dispo dans la base de données
-#' @param tracker FALSE par défaut. Si TRUE, le tracker se lance en même temps
-#' que cette fonction. si FALSE, il faut lancer le tracker séparément
+#' @param OS NULL par defaut, chaine de caracteres pour forcer le nom de l'OS
+#' @param TDP NULL par defaut, valeur numerique (entier) pour forcer
+#' la valeur du TDP, si elle n'est pas dispo dans la base de donnees
+#' @param tracker FALSE par defaut. Si TRUE, le tracker se lance en meme temps
+#' que cette fonction. si FALSE, il faut lancer le tracker separement
 #' ne pas utiliser pour l'instant
 #'
-#' @return Retourne une liste avec plusieurs paramètres liés au matériel
+#' @return Retourne une liste avec plusieurs parametres lies au materiel
 #' du PC sur lequel l'analyse tourne
 #' @export
 #'
@@ -16,21 +16,21 @@
 detect_hardware<-function(OS = NULL,
                           TDP = NULL,
                           tracker = FALSE) {
-  #### identifier système d'exploitation ####
-  # Obtenir les informations sur le système
+  #### identifier systeme d'exploitation ####
+  # Obtenir les informations sur le systeme
   sys_info<-Sys.info()
 
-  # Vérifier le nom du système d'exploitation si non forcé
+  # Verifier le nom du systeme d'exploitation si non force
   if(is.null(OS)) {
     os_name<-sys_info["sysname"]
 
-    # Afficher le système d'exploitation
+    # Afficher le systeme d'exploitation
     if(os_name == "Windows") {
       message("Le programme tourne sous Windows.")
     } else if (os_name == "Darwin") {
       message("Le programme tourne sous macOS.")
     } else {
-      message("Le programme tourne sous un autre système d'exploitation : ", os_name)
+      message("Le programme tourne sous un autre systeme d'exploitation : ", os_name)
     }
   } else {
     message("Le programme tourne sous ", os_name)
@@ -38,93 +38,93 @@ detect_hardware<-function(OS = NULL,
   }
 
   #### processeur CPU ####
-  # il faut récupérer le nombre de coeurs du CPU
+  # il faut recuperer le nombre de coeurs du CPU
   cpu_info<-system(command = "wmic cpu get name,numberofcores",
-                   intern = TRUE) # intern = T pour pouvoir stocker le résultat
+                   intern = TRUE) # intern = T pour pouvoir stocker le resultat
   cat("Informations sur le CPU :\n", cpu_info, "\n")
   cpu_info
 
-  # Nettoyer la sortie pour extraire le nombre de cœurs
-  cpu_data<-cpu_info[-1]  # Ignorer la première ligne (en-tête)
+  # Nettoyer la sortie pour extraire le nombre de coeurs
+  cpu_data<-cpu_info[-1]  # Ignorer la premiere ligne (entete)
   cpu_data<-gsub("\\s+", " ", cpu_data)  # Remplacer les espaces multiples par un espace unique
-  cpu_data<-trimws(cpu_data)  # Supprimer les espaces blancs en début et fin de ligne
+  cpu_data<-trimws(cpu_data)  # Supprimer les espaces blancs en debut et fin de ligne
   cpu_data<-cpu_data[cpu_data != ""]  # Supprimer les lignes vides
 
-  # on réutilise cpu_data pour récupérer par regex le nom du processeur
+  # on reutilise cpu_data pour recuperer par regex le nom du processeur
 
 
-  # Extraire le nombre de cœurs
-  # on tokenise la chaine de caractères par les espaces
+  # Extraire le nombre de coeurs
+  # on tokenise la chaine de caracteres par les espaces
   # puis on conserve uniquement le dernier token qui est le nombre de coeurs
   number_of_cores<-as.numeric(sapply(strsplit(cpu_data, " "),
                                      function(x) x[length(x)]))
 
-  ## extraire les infos de cpu mais sans le nombre de coeurs à la fin
-  # on remplace le chiffre à la fin de la chaine par ""
+  ## extraire les infos de cpu mais sans le nombre de coeurs a la fin
+  # on remplace le chiffre a la fin de la chaine par ""
   cpu_data_report<-sub(pattern = "\\s*\\d+$",
                        replacement = "",
                        x = cpu_data)
 
 
-  #### mémoire vive RAM ####
-  # il faut récupérer la valeur en GB
+  #### memoire vive RAM ####
+  # il faut recuperer la valeur en GB
   ram_info<-system("wmic memorychip get capacity",
-                   intern = TRUE) # intern = T pour pouvoir stocker le résultat
+                   intern = TRUE) # intern = T pour pouvoir stocker le resultat
   # Extraire et nettoyer les valeurs de RAM en octets
-  # Enlever les espaces blancs et convertir en numérique
+  # Enlever les espaces blancs et convertir en numerique
   ram_values<-as.numeric(gsub("\\s", "", ram_info[-1]))
-  # Retirer les valeurs non numériques
+  # Retirer les valeurs non numeriques
   ram_values<-ram_values[!is.na(ram_values)]
-  # Convertir les valeurs de RAM de octets à GB et les additionner
+  # Convertir les valeurs de RAM de octets a GB et les additionner
   ram_gb<-sum(ram_values)/1024^3 # sum pour additionner les valeurs
 
 
-  # à partir de cpu_data, récupérer le nom de version du CPU
+  # a partir de cpu_data, recuperer le nom de version du CPU
 
-  # en fonction de si on travaille avec intel ou AMD : exécuter 2 fonctions
-  # Utiliser une expression régulière pour extraire
+  # en fonction de si on travaille avec intel ou AMD : executer 2 fonctions
+  # Utiliser une expression reguliere pour extraire
   # la version du processeur (comme "i7-7700")
   if (grepl("^Intel", cpu_data)) {
     cpu_version<-regmatches(
       cpu_data, regexpr("i[0-9]-[0-9]+[A-Za-z]{0,3}", cpu_data))
   }
 
-  # pour AMD, regex qui garde tout avant le numéro de processeur
+  # pour AMD, regex qui garde tout avant le numero de processeur
   if (grepl("^AMD", cpu_data)) {
     cpu_version<-sub(pattern = "(.*?\\d{3,4}[a-zA-Z0-9]{0,3})\\s.*",
                      replacement = "\\1", # le premier groupe capturant
                      x = cpu_data)
   }
 
-  #### importation données de processeurs intel et AMD ####
+  #### importation donnees de processeurs intel et AMD ####
   data<-import_CPU()
 
   #### identifier le TDP (total) du processeur ####
-  # sinon estimer la valeur à 15W par coeur
-  # vérifier si le vecteur est non nul
+  # sinon estimer la valeur a 15W par coeur
+  # verifier si le vecteur est non nul
   if(length(cpu_version)>0) {
     if(cpu_version %in% data$`Processor Number`) {
       cpu_TDP<-
         data$TDP[data$`Processor Number` == cpu_version]
-      cat("La version du processeur est présente. Valeur du TDP :", cpu_TDP, "W\n")
+      cat("La version du processeur est presente. Valeur du TDP :", cpu_TDP, "W\n")
     } else {
       cpu_TDP<-number_of_cores*15
-      cat("La version du processeur n'est pas présente dans le dataframe.\n",
-          "La valeur estimée du TDP est", cpu_TDP, "W\n")
+      cat("La version du processeur n'est pas presente dans le dataframe.\n",
+          "La valeur estimee du TDP est", cpu_TDP, "W\n")
     }
   } else {
-    # vérifier si une valeur a été forcée
+    # verifier si une valeur a ete forcee
     if(is.null(TDP)) {
       cpu_TDP<-number_of_cores*15
-      cat("La version du processeur n'est pas présente dans le dataframe.\n",
-          "La valeur estimée du TDP est", cpu_TDP, "W\n")
+      cat("La version du processeur n'est pas presente dans le dataframe.\n",
+          "La valeur estimee du TDP est", cpu_TDP, "W\n")
     } else {
       cpu_TDP<-TDP
-      cat("La version du processeur n'est pas présente dans le dataframe.\n",
-          "La valeur estimée du TDP est", cpu_TDP, "W\n")
+      cat("La version du processeur n'est pas presente dans le dataframe.\n",
+          "La valeur estimee du TDP est", cpu_TDP, "W\n")
     }
   }
-  ## Créer une liste qui retourne tous les éléments utiles pour plus tard
+  ## Creer une liste qui retourne tous les elements utiles pour plus tard
   return(list(sys_info = sys_info,
               os_name = os_name,
               cpu_info = cpu_info,
