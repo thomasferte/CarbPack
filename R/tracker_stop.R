@@ -27,7 +27,7 @@ tracker_stop<-function(hardware,
     stop("L'argument 'start_time' est requis et doit etre de type POSIXct de longueur 1.")
   }
 
-  # Vérifier si l'argument est un objet POSIXct
+  # Verifier si l'argument est un objet POSIXct
   if (!inherits(start_time, "POSIXct")) {
     stop("L'argument 'start_time' doit etre un objet de type POSIXct.")
   }
@@ -72,7 +72,7 @@ carbon_footprint<-energy_needed*carbon_intensity
                elapsed_minutes_rounded, " minutes, ",
                "sur ", hardware$number_of_cores, " CPUs ",
                hardware$cpu_data,
-               " et a nécessite ",
+               " et a necessite ",
                energy_needed_rounded, " Wh. En France, ceci correspond a",
                " une empreinte carbone de ",
                carbon_footprint_rounded, " g CO2e."))
