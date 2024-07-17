@@ -7,9 +7,11 @@
 detect_hardware(OS = NULL, TDP = NULL, tracker = FALSE)
 }
 \arguments{
-\item{OS}{NULL par defaut, chaine de caracteres pour forcer le nom de l'OS}
+\item{OS}{NULL par defaut, chaine de caracteres
+de longueur 1 pour forcer le nom de l'OS}
 
-\item{TDP}{NULL par defaut, valeur numerique (entier) pour forcer
+\item{TDP}{NULL par defaut, valeur numerique (entier)
+de longueur 1 pour forcer
 la valeur du TDP, si elle n'est pas dispo dans la base de donnees
 si le parametre est NULL et que la valeur n'est pas retrouvee, alors
 la valeur du TDP est approximee a 15 fois le nombre de coeurs}

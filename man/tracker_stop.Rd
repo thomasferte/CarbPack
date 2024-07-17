@@ -4,9 +4,11 @@
 \alias{tracker_stop}
 \title{Title}
 \usage{
-tracker_stop(start_time)
+tracker_stop(hardware, start_time)
 }
 \arguments{
+\item{hardware}{la liste creee par la fonction 'detect_hardware'}
+
 \item{start_time}{un objet POSIXct, de preference l'objet cree par la
 fonction 'tracker_start'}
 }
