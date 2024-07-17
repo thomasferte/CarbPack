@@ -10,7 +10,9 @@ detect_hardware(OS = NULL, TDP = NULL, tracker = FALSE)
 \item{OS}{NULL par defaut, chaine de caracteres pour forcer le nom de l'OS}
 
 \item{TDP}{NULL par defaut, valeur numerique (entier) pour forcer
-la valeur du TDP, si elle n'est pas dispo dans la base de donnees}
+la valeur du TDP, si elle n'est pas dispo dans la base de donnees
+si le parametre est NULL et que la valeur n'est pas retrouvee, alors
+la valeur du TDP est approximee a 15 fois le nombre de coeurs}
 
 \item{tracker}{FALSE par defaut. Si TRUE, le tracker se lance en meme temps
 que cette fonction. si FALSE, il faut lancer le tracker separement

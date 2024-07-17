@@ -1,9 +1,13 @@
 
 #' Title
 #'
-#' @param OS NULL par defaut, chaine de caracteres pour forcer le nom de l'OS
-#' @param TDP NULL par defaut, valeur numerique (entier) pour forcer
+#' @param OS NULL par defaut, chaine de caracteres
+#' de longueur 1 pour forcer le nom de l'OS
+#' @param TDP NULL par defaut, valeur numerique (entier)
+#' de longueur 1 pour forcer
 #' la valeur du TDP, si elle n'est pas dispo dans la base de donnees
+#' si le parametre est NULL et que la valeur n'est pas retrouvee, alors
+#' la valeur du TDP est approximee a 15 fois le nombre de coeurs
 #' @param tracker FALSE par defaut. Si TRUE, le tracker se lance en meme temps
 #' que cette fonction. si FALSE, il faut lancer le tracker separement
 #' ne pas utiliser pour l'instant
@@ -16,14 +20,43 @@
 detect_hardware<-function(OS = NULL,
                           TDP = NULL,
                           tracker = FALSE) {
+
+  #### verification des arguments fournis le cas echeant ####
+  # Verifier si OS est fourni et valide
+  if (!is.null(OS)) {
+    if (!is.character(OS)) {
+      stop("L'argument 'OS' doit etre une chaine de caracteres.")
+    }
+    if (length(OS) != 1) {
+      stop("L'argument 'OS' doit etre de longueur 1.")
+    }
+  }
+
+  # Verifier si TDP est fourni et valide
+  if (!is.null(TDP)) {
+    if (!is.numeric(TDP) || TDP %% 1 != 0) {
+      stop("L'argument 'TDP' doit etre un entier.")
+    }
+    if (length(TDP) != 1) {
+      stop("L'argument 'TDP' doit etre de longueur 1.")
+    }
+  }
+
+
+
   #### identifier systeme d'exploitation ####
   # Obtenir les informations sur le systeme
   sys_info<-Sys.info()
 
-  # Verifier le nom du systeme d'exploitation si non force
-  if(is.null(OS)) {
-    os_name<-sys_info["sysname"]
 
+  # Verifier le nom du systeme d'exploitation si force
+  if(!is.null(OS)) {
+    os_name<-OS
+    message("Le programme tourne sous ", os_name)
+
+  } else {
+    # sinon on le recherche manuellement
+    os_name<-sys_info["sysname"]
     # Afficher le systeme d'exploitation
     if(os_name == "Windows") {
       message("Le programme tourne sous Windows.")
@@ -32,9 +65,6 @@ detect_hardware<-function(OS = NULL,
     } else {
       message("Le programme tourne sous un autre systeme d'exploitation : ", os_name)
     }
-  } else {
-    message("Le programme tourne sous ", os_name)
-
   }
 
   #### processeur CPU ####

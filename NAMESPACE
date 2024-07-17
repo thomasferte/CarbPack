@@ -3,6 +3,7 @@
 export(detect_hardware)
 export(increment_and_save)
 export(tracker_start)
+export(tracker_stop)
 import(readxl)
 importFrom(dplyr,"%>%")
 importFrom(readxl,read_excel)

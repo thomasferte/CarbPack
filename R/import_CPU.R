@@ -9,6 +9,9 @@
 #' @importFrom dplyr %>%
 #' @examples #non
 import_CPU<-function() {
+  # corriger la note (ligne inutile)
+  `Processor Number`<-NULL
+
 # chemin vers les fichiers excels
   chemin_fichier<-system.file("extdata", "cpu_amd.rds",
                               package = "CarbPack")
