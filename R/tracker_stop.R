@@ -78,7 +78,9 @@ carbon_footprint<-energy_needed*carbon_intensity
                carbon_footprint_rounded, " g CO2e."))
 
 #### suppression du start_time de l'environnement ####
-  rm(start_time, envir = .GlobalEnv)
+  # utiliser substitute pour recuperer le nom de l'objet
+  suppr_temps<-as.character(substitute(start_time))
+  rm(list = suppr_temps, envir = .GlobalEnv)
 
 
 }
