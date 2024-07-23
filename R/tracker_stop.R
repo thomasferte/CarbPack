@@ -50,7 +50,7 @@ tracker_stop<-function(hardware,
       loaded_time <- as.difftime(0, units = "secs")
       # Sauvegarder l'objet difftime egal a 0 sur le chemin 'path'
       saveRDS(loaded_time, file = path)
-      message("Le chemin n'existait pas. Un objet difftime egal a 0 a ete sauvegarde dans ", path)
+      message("Le chemin n'existait pas.\nUn objet de duree egale a 0 a ete sauvegarde dans ", path)
     }
   }
 
@@ -113,7 +113,7 @@ tracker_stop<-function(hardware,
 
   if (!is.null(path)) {
     saveRDS(object = elapsed_time, file = path)
-    # Verifier que l'objet est bien un difftime
+    message("Le temps total d'execution a ete sauvegarde dans ", path)
 
 
   }
