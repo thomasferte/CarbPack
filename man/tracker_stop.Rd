@@ -4,13 +4,17 @@
 \alias{tracker_stop}
 \title{Title}
 \usage{
-tracker_stop(hardware, start_time)
+tracker_stop(hardware, start_time, path = NULL)
 }
 \arguments{
 \item{hardware}{la liste creee par la fonction 'detect_hardware'}
 
 \item{start_time}{un objet POSIXct, de preference l'objet cree par la
 fonction 'tracker_start'}
+
+\item{path}{chemin vers un fichier .rds, utilise pour stocker et
+recuperer le temps d'execution total. Laisser vide pour ne produire
+qu'une iteration. Renseigner la chaine de}
 }
 \value{
 des choses dans la console
@@ -19,5 +23,7 @@ des choses dans la console
 Title
 }
 \examples{
-#tracker_stop<-function(start = tracker)
+#tracker_stop(hardware = detect_hardware(),
+#start_time = Sys.time(),
+#path = "./chemin/vers/fichier.rds")
 }

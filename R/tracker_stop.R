@@ -5,21 +5,25 @@
 #' @param hardware la liste creee par la fonction 'detect_hardware'
 #' @param start_time un objet POSIXct, de preference l'objet cree par la
 #' fonction 'tracker_start'
+#' @param path chemin vers un fichier .rds, utilise pour stocker et
+#' recuperer le temps d'execution total. Laisser vide pour ne produire
+#' qu'une iteration. Renseigner la chaine de
 #'
 #' @return des choses dans la console
 #' @export
 #'
-#' @examples #tracker_stop<-function(start = tracker)
+#' @examples #tracker_stop(hardware = detect_hardware(),
+#' #start_time = Sys.time(),
+#' #path = "./chemin/vers/fichier.rds")
 tracker_stop<-function(hardware,
-                       start_time) {
+                       start_time,
+                       path = NULL) {
 
 
   # Verifier si l'argument est manquant
   if (missing(hardware)) {
     stop("L'argument 'hardware' est requis et doit etre la liste creee par 'detect_hardware'.")
   }
-
-
 
 
   # Verifier si l'argument est manquant
@@ -32,10 +36,33 @@ tracker_stop<-function(hardware,
     stop("L'argument 'start_time' doit etre un objet de type POSIXct.")
   }
 
+  # Verifier le statut du 'path'
+  if (!is.null(path)) {
+    if(file.exists(path)) {
+      loaded_time<-readRDS(path)
+      # Verifier que l'objet est bien un difftime
+      if (!inherits(loaded_time, "difftime")) {
+        stop("L'objet charge n'est pas de classe 'difftime'.")
+      }
+    } else { # sinon creer le repertoire et l'objet
+      dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+      # Creer un objet difftime egal a 0
+      loaded_time <- as.difftime(0, units = "secs")
+      # Sauvegarder l'objet difftime egal a 0 sur le chemin 'path'
+      saveRDS(loaded_time, file = path)
+      message("Le chemin n'existait pas. Un objet difftime egal a 0 a ete sauvegarde dans ", path)
+    }
+  }
+
 
   # Calcul du temps ecoule
   end_time <- Sys.time()
   elapsed_time <- end_time - start_time
+
+  # ajout a elapsed_time l'objet difftime si existe
+  if (!is.null(path)) {
+    elapsed_time<-elapsed_time + loaded_time
+  }
 
   # Conversion du temps ecoule en differentes unites
   elapsed_seconds <- as.numeric(elapsed_time, units = "secs")
@@ -59,8 +86,8 @@ tracker_stop<-function(hardware,
 
 
 
-#### calcul de l'empreinte carbone ####
-carbon_footprint<-energy_needed*carbon_intensity
+  #### calcul de l'empreinte carbone ####
+  carbon_footprint<-energy_needed*carbon_intensity
 
   #### phrase a afficher avec les metriques ####
   elapsed_hours_rounded<-round(elapsed_hours,digits = 2)
@@ -77,10 +104,17 @@ carbon_footprint<-energy_needed*carbon_intensity
                " une empreinte carbone de ",
                carbon_footprint_rounded, " g CO2e."))
 
-#### suppression du start_time de l'environnement ####
+  #### suppression du start_time de l'environnement ####
   # utiliser substitute pour recuperer le nom de l'objet
   suppr_temps<-as.character(substitute(start_time))
   rm(list = suppr_temps, envir = .GlobalEnv)
 
+  # sauvegarder l'objet difftime si demande
 
+  if (!is.null(path)) {
+    saveRDS(object = elapsed_time, file = path)
+    # Verifier que l'objet est bien un difftime
+
+
+  }
 }
