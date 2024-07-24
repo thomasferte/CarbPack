@@ -2,7 +2,7 @@
 % Please edit documentation in R/tracker_start.R
 \name{tracker_start}
 \alias{tracker_start}
-\title{Title}
+\title{tracker_start}
 \usage{
 tracker_start()
 }
@@ -10,8 +10,9 @@ tracker_start()
 retourne un objet date
 }
 \description{
-Title
+demarre le tracker, sauvegarde un objet temporel a la date du systeme.
+A lancer au debut du programme
 }
 \examples{
-#tracker_start<-function()
+#start_time<-tracker_start()
 }

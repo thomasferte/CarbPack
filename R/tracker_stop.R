@@ -1,15 +1,26 @@
 
-#' Title
+#' @title
+#' tracker_stop
+#'
+#' @description
+#' Calcule l'energie requise et l'empreinte carbone du programme depuis
+#' le moment ou le tracker a ete lance. Peut egalement cumuler ces
+#' indicateurs en fonction du nombre de fois ou le programme a ete lance.
+#' A lancer apres l'execution du programme ou a sa fin.
 #'
 #'
-#' @param hardware la liste creee par la fonction 'detect_hardware'
+#' @param hardware la liste creee precedemment
+#' par la fonction 'detect_hardware'
 #' @param start_time un objet POSIXct, de preference l'objet cree par la
 #' fonction 'tracker_start'
 #' @param path chemin vers un fichier .rds, utilise pour stocker et
 #' recuperer le temps d'execution total. Laisser vide pour ne produire
-#' qu'une iteration. Renseigner la chaine de
+#' qu'une iteration. Renseigner la chaine de caractere du chemin vers un
+#' fichier .rds deja existant ou non pour cumuler la duree d'execution
+#' avec les fois precedentes et suivantes
 #'
-#' @return des choses dans la console
+#' @return Renvoie un rapport dans la console, et si l'argument 'path'
+#' est renseigne, sauvegarde un fichier .rds vers ce chemin.
 #' @export
 #'
 #' @examples #tracker_stop(hardware = detect_hardware(),

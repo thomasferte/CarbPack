@@ -2,25 +2,31 @@
 % Please edit documentation in R/tracker_stop.R
 \name{tracker_stop}
 \alias{tracker_stop}
-\title{Title}
+\title{tracker_stop}
 \usage{
 tracker_stop(hardware, start_time, path = NULL)
 }
 \arguments{
-\item{hardware}{la liste creee par la fonction 'detect_hardware'}
+\item{hardware}{la liste creee precedemment
+par la fonction 'detect_hardware'}
 
 \item{start_time}{un objet POSIXct, de preference l'objet cree par la
 fonction 'tracker_start'}
 
 \item{path}{chemin vers un fichier .rds, utilise pour stocker et
 recuperer le temps d'execution total. Laisser vide pour ne produire
-qu'une iteration. Renseigner la chaine de}
+qu'une iteration. Renseigner la chaine de caractere du chemin vers un
+fichier .rds deja existant ou non pour cumuler la duree d'execution
+avec les fois precedentes et suivantes}
 }
 \value{
-des choses dans la console
+Renvoie un rapport dans la console, et si l'arguument 'path'
+est renseigne, sauvegarde un fichier .rds vers ce chemin.
 }
 \description{
-Title
+Calcule l'energie requise et l'empreinte carbone du programme depuis
+le moment ou le tracker a ete lance. Peut egalement cumuler ces
+indicateurs en fonction du nombre de fois ou le programme a ete lance.
 }
 \examples{
 #tracker_stop(hardware = detect_hardware(),

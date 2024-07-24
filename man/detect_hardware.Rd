@@ -2,7 +2,7 @@
 % Please edit documentation in R/detect_hardware.R
 \name{detect_hardware}
 \alias{detect_hardware}
-\title{Title}
+\title{detect_hardware}
 \usage{
 detect_hardware(OS = NULL, TDP = NULL, tracker = FALSE)
 }
@@ -14,19 +14,24 @@ de longueur 1 pour forcer le nom de l'OS}
 de longueur 1 pour forcer
 la valeur du TDP, si elle n'est pas dispo dans la base de donnees
 si le parametre est NULL et que la valeur n'est pas retrouvee, alors
-la valeur du TDP est approximee a 15 fois le nombre de coeurs}
+la valeur du TDP est approximee a 15W par coeur}
 
 \item{tracker}{FALSE par defaut. Si TRUE, le tracker se lance en meme temps
 que cette fonction. si FALSE, il faut lancer le tracker separement
-ne pas utiliser pour l'instant}
+ne pas utiliser pour l'instant, garder FALSE}
 }
 \value{
 Retourne une liste avec plusieurs parametres lies au materiel
-du PC sur lequel l'analyse tourne
+du PC sur lequel le programme tourne
 }
 \description{
-Title
+Fonction qui permet de detecter le hardware sur lequel
+le programme tourne. Cette fonction ne fonctionne qu'avec un système
+d'exploitation Windows pour l'instant. Un resultat inattendu peut se
+produire avec un autre OS pour l'instant.
 }
 \examples{
 #ne pas lancer
+#result_hardware<-detect_hardware()
+#print(result_hardware)
 }
