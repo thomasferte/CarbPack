@@ -9,5 +9,5 @@ L'idée est de lancer un tracker avant le programme, puis d'avoir une sortie apr
 
 Cliquer sur "Code", "download source code", et choisir l'extension tar.gz.
 Dans la console sur R, exécuter le code suivant en indiquant le chemin vers le fichier tar.gz téléchargé :
-`install.packages("chemin/vers/CarbPack.tar.gz", repos = NULL, type = "source")`
+`install.packages("chemin/vers/carbpack-main.tar.gz", repos = NULL, type = "source")`
 `library(CarbPack)`
