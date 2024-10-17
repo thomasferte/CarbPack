@@ -88,8 +88,8 @@ tracker_stop<-function(hardware,
   #### calcul de l'energie consommee et de l'empreinte carbone ####
 
   #### carbon intensity de la France ####
-  # valeurs juillet 2023
-  carbon_intensity<-0.06207
+  # valeurs octobre 2024
+  carbon_intensity<-0.0705521359148881
 
   #### calcul de l'energie consommee en Wh ####
   energy_needed<-
