@@ -1,0 +1,78 @@
+---
+title: "Using CarbPack for Hardware Detection and Performance Tracking"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using CarbPack for Hardware Detection and Performance Tracking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The `CarbPack` package provides tools for hardware detection and performance tracking in R. This vignette demonstrates how to use the main functions of the package to detect hardware specifications, start a performance tracker, and save the tracking results.
+
+## Prerequisites
+
+Before proceeding, ensure that the `CarbPack` package is installed and loaded.
+
+```{r}
+# Install the package if you haven't already
+# install.packages("CarbPack")
+
+# Load the package
+library(CarbPack)
+```
+
+## Step 1: Detect Hardware
+
+The first step is to detect the hardware specifications of your machine. This can be useful for understanding the computational environment where your analysis is performed.
+
+```{r}
+# Detect hardware specifications
+hardware_info <- CarbPack::detect_hardware()
+```
+
+The `detect_hardware()` function returns information about your machine, such as the CPU model, number of cores, and available memory.
+
+## Step 2: Start the Performance Tracker
+
+After detecting the hardware, start the performance tracker. This function records the time at which tracking begins, which will later be used to measure the duration of the process.
+
+```{r}
+# Start the performance tracker
+start_time <- CarbPack::tracker_start()
+```
+
+The `tracker_start()` function marks the beginning of the tracking period.
+
+## Step 3: Main Code Execution
+
+Insert your main code here, which is the computational work or analysis you want to track. For example, you might run a simulation, perform data processing, or execute a machine learning algorithm.
+
+```{r}
+# Insert main code here
+# Example:
+# result <- some_computation_function(data)
+```
+
+## Step 4: Stop the Tracker and Save Results
+
+Once the main code execution is complete, stop the tracker and save the results. This function will calculate the elapsed time and optionally save the hardware and performance information to a file.
+
+```{r}
+# Stop the performance tracker and save results
+CarbPack::tracker_stop(
+  hardware = hardware_info,
+  start_time = start_time
+)
+```
+
+The `tracker_stop()` function takes the hardware information and start time as arguments, calculates and print the duration of the process.
+
+## Conclusion
+
+The `CarbPack` package provides an easy way to monitor hardware and track the performance of your R scripts. By following the steps outlined in this vignette, you can collect useful information about your computational environment and the execution time of your code.
+
+For more details on the package functions, refer to the package documentation.

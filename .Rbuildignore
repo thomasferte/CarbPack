@@ -1,2 +1,4 @@
 ^CarbPack\.Rproj$
 ^\.Rproj\.user$
+^doc$
+^Meta$
