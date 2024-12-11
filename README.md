@@ -12,13 +12,13 @@ https://doi.org/10.1002/advs.202100707.
 
 # Installation 
 
-Cliquer sur "Code", "download source code", et choisir l'extension tar.gz.
-Dans la console sur R, exécuter le code suivant en indiquant le chemin vers le fichier tar.gz téléchargé :
+You can install the package using the following command :
 
-`install.packages("chemin/vers/carbpack-main.tar.gz", repos = NULL, type = "source")`
+`devtools::install_github(repo = "thomasferte/Carbpack")`
 
-# Chargement de la librairie
+Then load it with :
 
-`library(CarbPack)`
+`library(Carbpack)`
+
 
 
