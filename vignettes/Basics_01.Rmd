@@ -1,6 +1,5 @@
 ---
 title: "Using CarbPack for Hardware Detection and Performance Tracking"
-author: "Your Name"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >

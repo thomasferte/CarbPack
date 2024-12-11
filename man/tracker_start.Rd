@@ -7,12 +7,12 @@
 tracker_start()
 }
 \value{
-retourne un objet date
+Returns a date-time object.
 }
 \description{
-demarre le tracker, sauvegarde un objet temporel a la date du systeme.
-A lancer au debut du programme
+Starts the tracker, saving a timestamp at the current system date and time.
+To be called before program execution or at the beginning.
 }
 \examples{
-#start_time<-tracker_start()
+start_time <- tracker_start()
 }

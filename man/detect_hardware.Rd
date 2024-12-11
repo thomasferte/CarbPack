@@ -7,31 +7,29 @@
 detect_hardware(OS = NULL, TDP = NULL, tracker = FALSE)
 }
 \arguments{
-\item{OS}{NULL par defaut, chaine de caracteres
-de longueur 1 pour forcer le nom de l'OS}
+\item{OS}{NULL by default. A character string of length 1
+to specify the name of the operating system.}
 
-\item{TDP}{NULL par defaut, valeur numerique (entier)
-de longueur 1 pour forcer
-la valeur du TDP, si elle n'est pas dispo dans la base de donnees
-si le parametre est NULL et que la valeur n'est pas retrouvee, alors
-la valeur du TDP est approximee a 15W par coeur}
+\item{TDP}{NULL by default. A numeric (integer) value of length 1
+to specify the TDP value if it is not available in the database.
+If the parameter is NULL and the value is not found, the TDP value
+is approximated to 15W per core.}
 
-\item{tracker}{FALSE par defaut. Si TRUE, le tracker se lance en meme temps
-que cette fonction. si FALSE, il faut lancer le tracker separement
-ne pas utiliser pour l'instant, garder FALSE}
+\item{tracker}{FALSE by default. If TRUE, the tracker is launched
+along with this function. If FALSE, the tracker must be launched separately.
+Do not use at the moment, keep it as FALSE.}
 }
 \value{
-Retourne une liste avec plusieurs parametres lies au materiel
-du PC sur lequel le programme tourne
+Returns a list with several parameters related to the hardware
+of the PC on which the program is running.
 }
 \description{
-Fonction qui permet de detecter le hardware sur lequel
-le programme tourne. Cette fonction ne fonctionne qu'avec un système
-d'exploitation Windows pour l'instant. Un resultat inattendu peut se
-produire avec un autre OS pour l'instant.
+Function to detect the hardware on which the program is running.
+This function currently works only on Windows operating systems.
+Unexpected results may occur with other operating systems at the moment.
 }
 \examples{
-#ne pas lancer
-#result_hardware<-detect_hardware()
+#do not run
+#result_hardware <- detect_hardware()
 #print(result_hardware)
 }

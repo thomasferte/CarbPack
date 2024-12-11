@@ -1,131 +1,105 @@
-
 #' @title
 #' tracker_stop
 #'
 #' @description
-#' Calcule l'energie requise et l'empreinte carbone du programme depuis
-#' le moment ou le tracker a ete lance. Peut egalement cumuler ces
-#' indicateurs en fonction du nombre de fois ou le programme a ete lance.
-#' A lancer apres l'execution du programme ou a sa fin.
+#' Calculates the energy consumption and carbon footprint of the program from the moment the tracker was started. It can also accumulate these indicators depending on how many times the program has been run. To be called after program execution or at the end.
 #'
+#' @param hardware The list created previously by the 'detect_hardware' function.
+#' @param start_time A POSIXct object, preferably the one created by the 'tracker_start' function.
+#' @param carbon_intensity Electricity Generation Emissions Factor. Default is France July 2023 = 0.06207 (source: https://www.carbonfootprint.com/international_electricity_factors.html)
+#' @param path Path to a .rds file, used to store and retrieve the total execution time. Leave empty to only produce a single iteration. Provide the file path to an existing or non-existing .rds file to accumulate execution time from previous and subsequent runs.
 #'
-#' @param hardware la liste creee precedemment
-#' par la fonction 'detect_hardware'
-#' @param start_time un objet POSIXct, de preference l'objet cree par la
-#' fonction 'tracker_start'
-#' @param path chemin vers un fichier .rds, utilise pour stocker et
-#' recuperer le temps d'execution total. Laisser vide pour ne produire
-#' qu'une iteration. Renseigner la chaine de caractere du chemin vers un
-#' fichier .rds deja existant ou non pour cumuler la duree d'execution
-#' avec les fois precedentes et suivantes
-#'
-#' @return Renvoie un rapport dans la console, et si l'argument 'path'
-#' est renseigne, sauvegarde un fichier .rds vers ce chemin.
+#' @return Outputs a report to the console, and if the 'path' argument is provided, saves a .rds file at that path.
 #' @export
 #'
-#' @examples #tracker_stop(hardware = detect_hardware(),
-#' #start_time = Sys.time(),
-#' #path = "./chemin/vers/fichier.rds")
-tracker_stop<-function(hardware,
-                       start_time,
-                       path = NULL) {
+#' @examples
+#' # tracker_stop(hardware = detect_hardware(),
+#' # start_time = Sys.time(),
+#' # path = "./path/to/file.rds")
+tracker_stop <- function(hardware,
+                         start_time,
+                         carbon_intensity = 0.06207,
+                         path = NULL) {
 
-
-  # Verifier si l'argument est manquant
+  # Check if the 'hardware' argument is missing
   if (missing(hardware)) {
-    stop("L'argument 'hardware' est requis et doit etre la liste creee par 'detect_hardware'.")
+    stop("The 'hardware' argument is required and should be the list created by 'detect_hardware'.")
   }
 
-
-  # Verifier si l'argument est manquant
+  # Check if the 'start_time' argument is missing
   if (missing(start_time)) {
-    stop("L'argument 'start_time' est requis et doit etre de type POSIXct de longueur 1.")
+    stop("The 'start_time' argument is required and should be a POSIXct object of length 1.")
   }
 
-  # Verifier si l'argument est un objet POSIXct
+  # Check if the 'start_time' argument is a POSIXct object
   if (!inherits(start_time, "POSIXct")) {
-    stop("L'argument 'start_time' doit etre un objet de type POSIXct.")
+    stop("The 'start_time' argument must be a POSIXct object.")
   }
 
-  # Verifier le statut du 'path'
+  # Check the status of the 'path' argument
   if (!is.null(path)) {
-    if(file.exists(path)) {
-      loaded_time<-readRDS(path)
-      # Verifier que l'objet est bien un difftime
+    if (file.exists(path)) {
+      loaded_time <- readRDS(path)
+      # Ensure the loaded object is of class 'difftime'
       if (!inherits(loaded_time, "difftime")) {
-        stop("L'objet charge n'est pas de classe 'difftime'.")
+        stop("The loaded object is not of class 'difftime'.")
       }
-    } else { # sinon creer le repertoire et l'objet
+    } else { # If the path does not exist, create it and initialize the difftime object
       dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
-      # Creer un objet difftime egal a 0
       loaded_time <- as.difftime(0, units = "secs")
-      # Sauvegarder l'objet difftime egal a 0 sur le chemin 'path'
       saveRDS(loaded_time, file = path)
-      message("Le chemin n'existait pas.\nUn objet de duree egale a 0 a ete sauvegarde dans ", path)
+      message("The path did not exist. A difftime object with a value of 0 has been saved to ", path)
     }
   }
 
-
-  # Calcul du temps ecoule
+  # Calculate elapsed time
   end_time <- Sys.time()
   elapsed_time <- end_time - start_time
 
-  # ajout a elapsed_time l'objet difftime si existe
+  # Add the loaded difftime if it exists
   if (!is.null(path)) {
-    elapsed_time<-elapsed_time + loaded_time
+    elapsed_time <- elapsed_time + loaded_time
   }
 
-  # Conversion du temps ecoule en differentes unites
+  # Convert elapsed time to different units
   elapsed_seconds <- as.numeric(elapsed_time, units = "secs")
   elapsed_minutes <- as.numeric(elapsed_time, units = "mins")
   elapsed_hours <- as.numeric(elapsed_time, units = "hours")
 
-  # Affichage du temps ecoule
-  cat(sprintf("Temps ecoule : %.2f secondes\n", elapsed_seconds))
-  cat(sprintf("Temps ecoule : %.2f minutes\n", elapsed_minutes))
-  cat(sprintf("Temps ecoule : %.2f heures\n", elapsed_hours))
+  # Display elapsed time
+  cat(sprintf("Elapsed time: %.2f seconds\n", elapsed_seconds))
+  cat(sprintf("Elapsed time: %.2f minutes\n", elapsed_minutes))
+  cat(sprintf("Elapsed time: %.2f hours\n", elapsed_hours))
 
-  #### calcul de l'energie consommee et de l'empreinte carbone ####
+  # Calculate energy consumption and carbon footprint
 
-  #### carbon intensity de la France ####
-  # valeurs juillet 2023
-  carbon_intensity<-0.06207
+  # Energy consumption in Wh
+  energy_needed <- elapsed_hours * (hardware$ram_gb * 0.3725 + hardware$cpu_TDP)
 
-  #### calcul de l'energie consommee en Wh ####
-  energy_needed<-
-    elapsed_hours*(hardware$ram_gb*0.3725+hardware$cpu_TDP)
+  # Carbon footprint
+  carbon_footprint <- energy_needed * carbon_intensity
 
-
-
-  #### calcul de l'empreinte carbone ####
-  carbon_footprint<-energy_needed*carbon_intensity
-
-  #### phrase a afficher avec les metriques ####
-  elapsed_hours_rounded<-round(elapsed_hours,digits = 2)
-  elapsed_minutes_rounded<-round(elapsed_minutes, digits = 2)
-  energy_needed_rounded<-round(energy_needed, digits = 2)
-  carbon_footprint_rounded<-round(carbon_footprint, digits = 2)
-  print(paste0("Ce programme s'est execute en ",
-               elapsed_hours_rounded, " heures, soit ",
+  # Print the metrics
+  elapsed_hours_rounded <- round(elapsed_hours, 2)
+  elapsed_minutes_rounded <- round(elapsed_minutes, 2)
+  energy_needed_rounded <- round(energy_needed, 2)
+  carbon_footprint_rounded <- round(carbon_footprint, 2)
+  print(paste0("This program executed in ",
+               elapsed_hours_rounded, " hours, which is ",
                elapsed_minutes_rounded, " minutes, ",
-               "sur ", hardware$number_of_cores, " CPUs ",
+               "on ", hardware$number_of_cores, " CPUs ",
                hardware$cpu_data,
-               " et a necessite ",
-               energy_needed_rounded, " Wh. En France, ceci correspond a",
-               " une empreinte carbone de ",
+               " and required ",
+               energy_needed_rounded, " Wh. In France, this corresponds to ",
                carbon_footprint_rounded, " g CO2e."))
 
-  #### suppression du start_time de l'environnement ####
-  # utiliser substitute pour recuperer le nom de l'objet
-  suppr_temps<-as.character(substitute(start_time))
+  # Remove the start_time from the global environment
+  suppr_temps <- as.character(substitute(start_time))
   rm(list = suppr_temps, envir = .GlobalEnv)
 
-  # sauvegarder l'objet difftime si demande
-
+  # Save the difftime object if requested
   if (!is.null(path)) {
     saveRDS(object = elapsed_time, file = path)
-    message("Le temps total d'execution a ete sauvegarde dans ", path)
-
-
+    message("The total execution time has been saved to ", path)
   }
 }
