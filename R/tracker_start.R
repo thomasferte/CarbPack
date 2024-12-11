@@ -1,17 +1,16 @@
-
 #' @title
 #' tracker_start
 #'
 #' @description
-#' demarre le tracker, sauvegarde un objet temporel a la date du systeme.
-#' A lancer avant l'execution du programme ou a son debut.
+#' Starts the tracker, saving a timestamp at the current system date and time.
+#' To be called before program execution or at the beginning.
 #'
-#'
-#' @return retourne un objet date
+#' @return Returns a date-time object.
 #' @export
 #'
-#' @examples #start_time<-tracker_start()
-tracker_start<-function() {
-  start_time<-Sys.time()
+#' @examples
+#' start_time <- tracker_start()
+tracker_start <- function() {
+  start_time <- Sys.time()
   return(start_time)
 }

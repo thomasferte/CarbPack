@@ -2,16 +2,17 @@
 % Please edit documentation in R/import_CPU.R
 \name{import_CPU}
 \alias{import_CPU}
-\title{Title}
+\title{import_CPU}
 \usage{
 import_CPU()
 }
 \value{
-un df avec les TDP des processeurs AMD
+A dataframe containing the TDP of AMD and Intel processors.
 }
 \description{
-Title
+Function to import TDP data for AMD and Intel processors
+from the package's internal files.
 }
 \examples{
-#non
+#do not run
 }

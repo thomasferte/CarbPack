@@ -1,17 +1,29 @@
 Package: CarbPack
-Title: Estimer l'empreinte carbone d'un programme R
+Title: Estimate the Carbon Footprint of an R Program
 Version: 0.0.0.9000
-Author: Adam Loffler
 Authors@R: c(
-    person(given = "Your", family = "Name", 
-           role = c("aut", "cre"), 
-           email = "your.email@example.com"))
-Description: Estimer l'empreinte carbone d'un programme R. Je met du remplissage sinon ça bug.
+    person(given = "Adam", family = "Loffler", 
+           role = c("aut"),
+           email = "adam.loffler@u-bordeaux.fr"),
+    person(given = "Laura", family = "Richert", 
+           role = "aut"),
+    person(given = "Thomas", family = "Ferté", 
+           role = c("aut", "cre"),
+           email = "thomas.ferte@u-bordeaux.fr"))
+Description: This package provides an R wrapper for the Green Algorithms for R
+    statistical analysis. This package provides an R wrapper for the Green
+    Algorithms, enabling users to quantify the carbon footprint of their
+    computations directly within R. The methodology is based on the Green
+    Algorithms framework, which is thoroughly detailed at Green Algorithms
+    Calculator (http://calculator.green-algorithms.org/) and in their seminal
+    publication: Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
+    Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707.
+    https://doi.org/10.1002/advs.202100707.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: dplyr, readxl
 VignetteBuilder: knitr
 Suggests: knitr, rmarkdown

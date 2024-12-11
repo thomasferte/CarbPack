@@ -4,32 +4,30 @@
 \alias{tracker_stop}
 \title{tracker_stop}
 \usage{
-tracker_stop(hardware, start_time, path = NULL)
+tracker_stop(
+  hardware,
+  start_time,
+  carbon_intensity = 0.0705521359148881,
+  path = NULL
+)
 }
 \arguments{
-\item{hardware}{la liste creee precedemment
-par la fonction 'detect_hardware'}
+\item{hardware}{The list created previously by the 'detect_hardware' function.}
 
-\item{start_time}{un objet POSIXct, de preference l'objet cree par la
-fonction 'tracker_start'}
+\item{start_time}{A POSIXct object, preferably the one created by the 'tracker_start' function.}
 
-\item{path}{chemin vers un fichier .rds, utilise pour stocker et
-recuperer le temps d'execution total. Laisser vide pour ne produire
-qu'une iteration. Renseigner la chaine de caractere du chemin vers un
-fichier .rds deja existant ou non pour cumuler la duree d'execution
-avec les fois precedentes et suivantes}
+\item{carbon_intensity}{Electricity Generation Emissions Factor. Default is France October 2024 = 0.0705... (source: https://www.carbonfootprint.com/international_electricity_factors.html)}
+
+\item{path}{Path to a .rds file, used to store and retrieve the total execution time. Leave empty to only produce a single iteration. Provide the file path to an existing or non-existing .rds file to accumulate execution time from previous and subsequent runs.}
 }
 \value{
-Renvoie un rapport dans la console, et si l'arguument 'path'
-est renseigne, sauvegarde un fichier .rds vers ce chemin.
+Outputs a report to the console, and if the 'path' argument is provided, saves a .rds file at that path.
 }
 \description{
-Calcule l'energie requise et l'empreinte carbone du programme depuis
-le moment ou le tracker a ete lance. Peut egalement cumuler ces
-indicateurs en fonction du nombre de fois ou le programme a ete lance.
+Calculates the energy consumption and carbon footprint of the program from the moment the tracker was started. It can also accumulate these indicators depending on how many times the program has been run. To be called after program execution or at the end.
 }
 \examples{
-#tracker_stop(hardware = detect_hardware(),
-#start_time = Sys.time(),
-#path = "./chemin/vers/fichier.rds")
+# tracker_stop(hardware = detect_hardware(),
+# start_time = Sys.time(),
+# path = "./path/to/file.rds")
 }
