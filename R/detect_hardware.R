@@ -134,7 +134,7 @@ detect_hardware<-function(OS = NULL,
 
 
   # a partir de cpu_data, recuperer le nom de version du CPU
-
+  cpu_version <- NULL
   # en fonction de si on travaille avec intel ou AMD : executer 2 fonctions
   # Utiliser une expression reguliere pour extraire
   # la version du processeur (comme "i7-7700")
